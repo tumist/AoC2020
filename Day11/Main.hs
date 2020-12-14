@@ -45,8 +45,8 @@ adjacent :: Layout -> Index -> [Seat]
 adjacent layout (ix, iy) =
   let (_, (boundX, boundY)) = bounds layout
       ixs = [(x, y) | y <- [iy-1..iy+1],
-                      x <- [ix-1..ix+1],
                       0 <= y && y <= boundY,
+                      x <- [ix-1..ix+1],
                       0 <= x && x <= boundX,
                       (x,y) /= (ix,iy) ]
   in map (layout !) ixs
@@ -67,7 +67,7 @@ adjacent2 layout (ix,iy) = catMaybes $ map (\d@(dx,dy) -> inDirection (ix+dx, iy
                seat  -> Just seat
         else Nothing
 
--- Seat rule or next iteration
+-- Seat rule for next iteration
 rule1 :: Layout -> Index -> Seat
 rule1 layout ix =
   let seat = layout ! ix
@@ -105,14 +105,13 @@ fiveOrMoreOccupied = (5 <=) . length . filter (Occupied ==)
 
 iter1 :: Layout -> Layout
 iter1 layout = array (bounds layout) (map f $ assocs layout)
-  where
-      f (ix, _) = (ix, rule1 layout ix)
+  where f (ix, _) = (ix, rule1 layout ix)
 
 iter2 :: Layout -> Layout
 iter2 layout = array (bounds layout) (map f $ assocs layout)
-  where
-      f (ix, _) = (ix, rule2 layout ix)
+  where f (ix, _) = (ix, rule2 layout ix)
 
+-- Black magic borrowed from StackOverflow
 converge :: Eq a => (a -> a) -> a -> a
 converge = until =<< ((==) =<<)
 
@@ -126,11 +125,11 @@ main = do
   putStrLn "--"
   let converged = converge iter1 layout
   printLayout converged
-  putStrLn $ "Final umber of occupied seats: " ++ show (countOccupied converged)
+  putStrLn $ "Final number of occupied seats: " ++ show (countOccupied converged)
 
-  layout2 <- getInput "input"
+  let layout2 = layout
   printLayout layout2
   putStrLn "--"
   let conv2 = converge iter2 layout2
   printLayout conv2
-  putStrLn $ "Final umber of occupied seats: " ++ show (countOccupied conv2)
+  putStrLn $ "Final number of occupied seats: " ++ show (countOccupied conv2)
