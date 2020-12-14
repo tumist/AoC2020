@@ -1,0 +1,24 @@
+name:                Day14
+version:             0.1.0.0
+-- synopsis:
+-- description:
+homepage:            https://github.com/tumist/Day14#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Tumi Steingrímsson
+maintainer:          tumi.st@gmail.com
+copyright:           2020 Tumi Steingrímsson
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+extra-source-files:  README.md
+
+executable Day14
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , containers
+                     , bytestring
+                     , attoparsec
+
